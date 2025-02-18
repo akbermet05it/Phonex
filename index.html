@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phonex - Стоматологическая клиника</title>
+  <style>
+    /* Сброс стилей и базовые настройки */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    html{
+        scroll-behavior: smooth;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* Header и навигация */
+    header {
+      background: #fff;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #007BFF;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+    }
+    .nav-links li {
+      margin-left: 20px;
+    }
+    .nav-links a {
+      color: #333;
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover {
+      color: #007BFF;
+    }
+    .burger {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .burger div {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      transition: all 0.3s ease;
+    }
+    
+    /* Hero секция */
+    .hero {
+      background: url('./img/bg.avif') center/cover no-repeat;
+      height:90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: 70px; /* чтобы не перекрывал header */
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.63);
+    }
+    .hero-content {
+      position: relative;
+      color: #fff;
+      text-align: center;
+      z-index: 1;
+    }
+    .hero-content h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s;
+    }
+    .hero-content p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      animation: fadeInUp 1s;
+    }
+    .hero-content button {
+      padding: 10px 30px;
+      font-size: 1em;
+      border: none;
+      background: #007BFF;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      animation: fadeInUp 1s;
+    }
+    .hero-content button:hover {
+      background: #0056b3;
+    }
+    
+    /* Обновлённый раздел "О нас" */
+    .about {
+      position: relative;
+      padding: 100px 0;
+      background: url('./img/about.jpeg') center/cover no-repeat;
+      color: #fff;
+    }
+    .about::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.648);
+      z-index: 1;
+    }
+    .about-container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .about-content {
+      flex: 1 1 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+    .about-content h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #007BFF;
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+    .about-content p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .about-image {
+      flex: 1 1 400px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .about-image:hover {
+      transform: scale(1.05);
+    }
+    .about-image img {
+      width: 100%;
+      display: block;
+    }
+    
+    /* Секция "Врачи" */
+    .doctors {
+      padding: 60px 0;
+      background: #f9f9f9;
+    }
+    .doctors h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    .doctor-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .doctor-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.3s ease;
+    }
+    .doctor-card:hover {
+      transform: translateY(-10px);
+    }
+    .doctor-card img {
+      width: 100%;
+      height: auto;
+    }
+    .doctor-card .info {
+      padding: 20px;
+    }
+    .doctor-card .info h3 {
+      margin-bottom: 10px;
+      font-size: 1.5em;
+    }
+    .doctor-card .info p {
+      font-size: 0.9em;
+      color: #777;
+    }
+    
+    /* 3D Фото-слайдер */
+   /* 3D Фото-слайдер */
+.slider {
+  position: relative;
+  perspective: 1000px;
+  margin: 60px 0;
+  height: 400px;
+  overflow: hidden;
+}
+
+.slider-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: rotateSlider 20s infinite linear;
+}
+
+/* При наведении анимация останавливается */
+.slider:hover .slider-inner {
+  animation-play-state: paused;
+}
+
+.slider-item {
+  position: absolute;
+  width: 60%;
+  height: 300px;
+  left: 20%;
+  top: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* Для плавного появления элементов можно добавить transition */
+  transition: transform 0.5s ease;
+}
+
+/* Стилизация вложенных изображений */
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* Расположение слайдов по кругу (для 3-х слайдов: 360/3 = 120 градусов) */
+.slider-item:nth-child(1) {
+  transform: rotateY(0deg) translateZ(350px);
+}
+
+.slider-item:nth-child(2) {
+  transform: rotateY(120deg) translateZ(350px);
+}
+
+.slider-item:nth-child(3) {
+  transform: rotateY(240deg) translateZ(350px);
+}
+
+/* Анимация вращения слайдера */
+@keyframes rotateSlider {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+} .slider {
+      position: relative;
+      margin: 60px 0;
+      height: 400px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .slider-container {
+      position: relative;
+      width: 80%;
+      height: 100%;
+    }
+    /* Базовые стили для слайдов */
+    .slider-item {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 60%;
+      height: 300px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.5s ease, opacity 0.5s ease, filter 0.5s ease;
+      opacity: 0;
+    }
+    .slider-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    /* Активный слайд – в центре, без блюра */
+    .slider-item.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      z-index: 2;
+      filter: none;
+    }
+    /* Слайд, расположенный слева – смещён влево, уменьшен, с блюром и пониженной прозрачностью */
+    .slider-item.left {
+      transform: translate(calc(-50% - 150px), -50%) scale(0.8);
+      opacity: 0.5;
+      z-index: 1;
+      filter: blur(2px);
+    }
+    /* Слайд, расположенный справа – смещён вправо, уменьшен, с блюром и пониженной прозрачностью */
+    .slider-item.right {
+      transform: translate(calc(-50% + 150px), -50%) scale(0.8);
+      opacity: 0.5;
+      z-index: 1;
+      filter: blur(2px);
+    }
+    /* Остальные слайды скрыты */
+    .slider-item.hidden {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+      z-index: 0;
+    }
+
+    
+    /* Секция онлайн-записи */
+    .appointment {
+      padding: 60px 0;
+      background: #f9f9f9;
+    }
+    .appointment h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    .appointment form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .appointment form .form-group {
+      margin-bottom: 20px;
+    }
+    .appointment form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .appointment form input,
+    .appointment form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .appointment form button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .appointment form button:hover {
+      background: #0056b3;
+    }
+    
+    /* Секция "Услуги" */
+    .services {
+      padding: 60px 0;
+    }
+    .services h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    .service-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .service-item {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 280px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .service-item:hover {
+      transform: translateY(-10px);
+    }
+    .service-item h3 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+    }
+    .service-item p {
+      font-size: 0.9em;
+      color: #777;
+    }
+    
+    /* Секция "Цены" */
+    .prices {
+      padding: 60px 0;
+      background: #f9f9f9;
+    }
+    .prices h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    .price-table {
+      max-width: 800px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .price-table th, .price-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    .price-table th {
+      background: #007BFF;
+      color: #fff;
+    }
+    
+    /* Секция "Контакты" */
+    .contacts {
+      padding: 60px 0;
+    }
+    .contacts h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2em;
+    }
+    .contact-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .contact-info p {
+      font-size: 1em;
+      margin-bottom: 5px;
+    }
+    .map {
+      width: 100%;
+      height: 400px;
+    }
+    .map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 10px;
+    }
+    
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    /* Анимации */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes rotateSlider {
+      from { transform: rotateY(0deg); }
+      to { transform: rotateY(360deg); }
+    }
+    
+    /* Адаптивная верстка */
+    @media(max-width: 768px) {
+      .nav-links {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        background: #fff;
+        flex-direction: column;
+        width: 200px;
+        display: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      }
+      .nav-links li {
+        margin: 15px 0;
+        text-align: center;
+      }
+      .burger {
+        display: flex;
+      }
+      .about-container {
+        flex-direction: column;
+      }
+      .doctor-cards, .service-list {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header с навигацией -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Phonex</div>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#hero">Главная</a></li>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#doctors">Врачи</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#prices">Цены</a></li>
+          <li><a href="#appointment">Запись</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+        </ul>
+        <div class="burger" id="burger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- Hero секция -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>Добро пожаловать в Phonex</h1>
+      <p>Качественная стоматология для всей семьи</p>
+      <button onclick="scrollToSection('appointment')">Записаться на прием</button>
+    </div>
+  </section>
+  
+  <!-- Обновлённый раздел "О нас" -->
+ 
+  <!-- Секция "Врачи" -->
+  <section class="doctors" id="doctors">
+    <div class="container">
+      <h2>Наши врачи</h2>
+      <div class="doctor-cards">
+        <div class="doctor-card">
+          <img src="./img/master1.png" alt="Врач 1">
+          <div class="info">
+            <h3>Халбаев Исламбек </h3>
+            <p>Стоматолог-ортопед</p>
+          </div>
+        </div>
+        <div class="doctor-card">
+          <img src="./img/master2.png" alt="Врач 2">
+          <div class="info">
+            <h3>Раимов Атабек</h3>
+            <p>Хирург-стоматолог</p>
+          </div>
+        </div>
+        <div class="doctor-card">
+          <img src="./img/master3.png" alt="Врач 3">
+          <div class="info">
+            <h3>Дуйшеева Айдай</h3>
+            <p>Терапевт-стоматолог</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="about" id="about">
+    <div class="container about-container">
+      <div class="about-content">
+        <h2>О нашей клинике</h2>
+        <p>Phonex — современная стоматологическая клиника, где применяются передовые методы лечения и индивидуальный подход к каждому пациенту. Мы убеждены, что ваша улыбка — отражение здоровья и уверенности в себе.</p>
+        <p>Наши специалисты обладают высоким профессионализмом и стремятся к совершенству в каждом деле. Доверьтесь нам, и мы поможем вам обрести идеальную улыбку!</p>
+      </div>
+      <div class="about-image">
+        <img src="./img/about2.png" alt="О клинике">
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- 3D Фото-слайдер -->
+  <section class="slider">
+    <div class="slider-container">
+      <div class="slider-item">
+        <img src="./img/works/1.jpeg" alt="Слайд 1">
+      </div>
+      <div class="slider-item">
+        <img src="./img/works/2.jpeg" alt="Слайд 2">
+      </div>
+      <div class="slider-item">
+        <img src="./img/works/3.jpeg" alt="Слайд 3">
+      </div>
+      <!-- При необходимости можно добавить больше слайдов -->
+    </div>
+  </section>
+  
+  <!-- Секция онлайн-записи -->
+  <section class="appointment" id="appointment">
+    <div class="container">
+      <h2>Онлайн запись</h2>
+      <form id="appointmentForm">
+        <div class="form-group">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" name="phone" placeholder="Ваш телефон" required>
+        </div>
+        <div class="form-group">
+          <label for="date">Дата приема</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Сообщение</label>
+          <textarea id="message" name="message" rows="4" placeholder="Ваше сообщение"></textarea>
+        </div>
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
+  </section>
+  
+  <!-- Секция "Услуги" -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2>Наши услуги</h2>
+      <div class="service-list">
+        <div class="service-item">
+          <h3>Лечение кариеса</h3>
+          <p>Современные методики лечения с минимальной болью.</p>
+        </div>
+        <div class="service-item">
+          <h3>Отбеливание зубов</h3>
+          <p>Эффективное отбеливание для сияющей улыбки.</p>
+        </div>
+        <div class="service-item">
+          <h3>Имплантация</h3>
+          <p>Надежное восстановление утраченных зубов.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Секция "Цены" -->
+  <section class="prices" id="prices">
+    <div class="container">
+      <h2>Цены</h2>
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Услуга</th>
+            <th>Цена</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Лечение кариеса</td>
+            <td>3 000 сом</td>
+          </tr>
+          <tr>
+            <td>Отбеливание зубов</td>
+            <td>5 000 сом</td>
+          </tr>
+          <tr>
+            <td>Имплантация</td>
+            <td>20 000 сом</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  
+  <!-- Секция "Контакты" -->
+  <section class="contacts" id="contacts">
+    <div class="container">
+      <h2>Контакты</h2>
+      <div class="contact-info">
+        <p>Телефон: +996 707 116 976</p>
+        <p>Email: info@phonex.kg</p>
+        <p>Адрес: г. Каракол, Абдрахманова 55</p>
+      </div>
+      <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39781.65860980917!2d78.36110014058924!3d42.486258318611746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38865b91e1f04c0b%3A0xeb5bfe3900e7ecfa!2z0JrQsNGA0LDQutC-0Ls!5e1!3m2!1sru!2skg!4v1739340404654!5m2!1sru!2skg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Phonex. Все права защищены.</p>
+  </footer>
+  
+  <script>
+    // Переключение бургер-меню
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    burger.addEventListener('click', () => {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Функция плавного скроллинга к секции
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Обработка отправки формы
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Ваша заявка отправлена!');
+      this.reset();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+      const sliderItems = document.querySelectorAll('.slider-item');
+      let currentIndex = 0;
+      const totalItems = sliderItems.length;
+
+      // Функция назначает каждому слайду класс в зависимости от его позиции
+      function updateSlider() {
+        sliderItems.forEach((item, index) => {
+          item.classList.remove('active', 'left', 'right', 'hidden');
+          if (index === currentIndex) {
+            item.classList.add('active');
+          } else if (index === (currentIndex - 1 + totalItems) % totalItems) {
+            item.classList.add('left');
+          } else if (index === (currentIndex + 1) % totalItems) {
+            item.classList.add('right');
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+      }
+
+      // Функция перехода к следующему слайду
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateSlider();
+      }
+
+      updateSlider();
+      // Меняем слайды каждые 3 секунды
+      setInterval(nextSlide, 3000);
+    });
+
+  </script>
+</body>
+</html>
